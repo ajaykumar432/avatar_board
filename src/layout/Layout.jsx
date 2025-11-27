@@ -107,7 +107,7 @@
 // };
 
 // export default Layout;
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
@@ -115,20 +115,31 @@ import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   const [isSidebarVisible, setSidebarVisible] = useState(false);
-  const [currentPath, setCurrentPath] = useState("/");
+  const sidebarRef = useRef(null);
+
+  const handleWrapperClick = (e) => {
+    if (
+      isSidebarVisible &&
+      sidebarRef.current &&
+      !sidebarRef.current.contains(e.target)
+    ) {
+      setSidebarVisible(false);
+    }
+  };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gray-50">
+    <div
+      className="flex h-screen w-full overflow-hidden bg-gray-50"
+      onClick={handleWrapperClick}
+    >
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-full bg-gray-900 text-white transform transition-transform duration-300
+        ref={sidebarRef}
+        className={`fixed top-0 left-0 z-40 h-full transform transition-transform duration-300
           ${isSidebarVisible ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:relative md:w-64 w-64`}
       >
-        <Sidebar
-          context={{ currentPath }}
-          isSidebarVisible={isSidebarVisible}
-        />
+        <Sidebar isOpen={isSidebarVisible} setIsOpen={setSidebarVisible} />
       </aside>
 
       {/* Main Content */}
@@ -146,7 +157,6 @@ const Layout = () => {
 
         {/* Main Outlet Area */}
         <main className="flex-1 w-full overflow-y-auto bg-gray-50">
-          {/* Remove all default paddings or margins */}
           <div className="m-0 p-0 w-full h-full">
             <Outlet />
           </div>
@@ -162,3 +172,59 @@ const Layout = () => {
 };
 
 export default Layout;
+
+// import React, { useState } from "react";
+// import Sidebar from "../components/sidebar/Sidebar";
+// import Header from "../components/header/Header";
+// import Footer from "../components/footer/Footer";
+// import { Outlet } from "react-router-dom";
+
+// const Layout = () => {
+//   const [isSidebarVisible, setSidebarVisible] = useState(false);
+//   const [currentPath, setCurrentPath] = useState("/");
+
+//   return (
+//     <div className="flex h-screen w-full overflow-hidden bg-gray-50">
+//       {/* Sidebar */}
+//       <aside
+//         className={`fixed top-0 left-0 z-40 h-full bg-gray-900 text-white transform transition-transform duration-300
+//           ${isSidebarVisible ? "translate-x-0" : "-translate-x-full"}
+//           md:translate-x-0 md:relative md:w-64 w-64`}
+//       >
+//         <Sidebar
+//           context={{ currentPath }}
+//           isSidebarVisible={isSidebarVisible}
+//         />
+//       </aside>
+
+//       {/* Main Content */}
+//       <div className="flex flex-col flex-1 min-w-0 w-full">
+//         {/* Header */}
+//         <header className="sticky top-0 z-30 w-full bg-white shadow-sm">
+//           <Header
+//             setSidebarOpen={setSidebarVisible}
+//             sidebarOpen={isSidebarVisible}
+//           />
+//         </header>
+
+//         {/* Divider */}
+//         <div className="border-t border-cyan-600 w-full" />
+
+//         {/* Main Outlet Area */}
+//         <main className="flex-1 w-full overflow-y-auto bg-gray-50">
+//           {/* Remove all default paddings or margins */}
+//           <div className="m-0 p-0 w-full h-full">
+//             <Outlet />
+//           </div>
+//         </main>
+
+//         {/* Footer */}
+//         <footer className="bg-white border-t border-gray-200 w-full">
+//           <Footer />
+//         </footer>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Layout;

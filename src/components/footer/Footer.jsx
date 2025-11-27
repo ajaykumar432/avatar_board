@@ -33,7 +33,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4">
         <p className="text-sm text-gray-600">
           © {new Date().getFullYear()}{' '}
-          <span className="font-semibold text-teal-600">SmartBoard</span>. All rights reserved.
+          <span className="font-semibold text-teal-600">Hexedge</span>. All rights reserved.
         </p>
       </div>
     </footer>

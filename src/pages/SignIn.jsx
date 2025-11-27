@@ -34,8 +34,8 @@ export const SignIn = () => {
             <Zap className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">SmartBoard</h1>
-            <p className="text-sm text-gray-500">IoT Control System</p>
+            <h1 className="text-2xl font-bold text-gray-800">EnerJoule</h1>
+            <p className="text-sm text-gray-500">Control Panel</p>
           </div>
         </div>
 
