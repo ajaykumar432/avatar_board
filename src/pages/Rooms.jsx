@@ -1541,10 +1541,10 @@ const Rooms = () => {
               <span className="font-medium">Back to Rooms</span>
             </button>
             
-            <h1 className="text-lg md:text-lg font-bold text-slate-800 mb-1">
+            <h1 className="text-lg sm:text-lg md:text-lg   font-bold text-teal-600 mb-0.5">
               {currentRoom.room_name}
             </h1>
-            <p className="text-slate-600">Board: {getBoardName(currentRoom.board_id)}</p>
+            <p className="text-slate-600 text-xs sm:text-base md:text-sm">Board: {getBoardName(currentRoom.board_id)}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -1736,10 +1736,10 @@ const Rooms = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
   <div>
-    <h1 className="text-lg sm:text-lg md:text-lg font-bold text-slate-800 mb-2">
+    <h1 className="text-lg sm:text-lg md:text-lg   font-bold text-teal-600 mb-0.5">
       Room Management
     </h1>
-    <p className="text-slate-600 text-sm sm:text-base md:text-lg">
+    <p className="text-slate-600 text-xs sm:text-base md:text-sm">
       Track and control devices by room
     </p>
   </div>

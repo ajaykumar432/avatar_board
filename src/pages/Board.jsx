@@ -1026,10 +1026,10 @@ const Boards = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
           <div className="w-full sm:w-auto">
-            <h1 className="text-lg sm:text-lg md:text-lg lg:text-lg font-bold text-slate-800 mb-0.5 sm:mb-1.5 tracking-tight">
+            <h1 className="text-lg sm:text-lg md:text-lg   font-bold text-teal-600 mb-0.5">
               Board Management
             </h1>
-            <p className="text-slate-600 text-sm sm:text-sm md:text-sm">
+            <p className="text-slate-600 text-xs sm:text-base md:text-sm">
               Configure and manage electrical boards
             </p>
           </div>

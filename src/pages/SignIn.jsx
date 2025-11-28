@@ -98,7 +98,7 @@ export const SignIn = () => {
           </div>
 
           {/* Remember me + Forgot password */}
-          <div className="flex items-center justify-between mb-6">
+          {/* <div className="flex items-center justify-between mb-6">
             <label className="flex items-center">
               <input
                 type="checkbox"
@@ -116,7 +116,7 @@ export const SignIn = () => {
             >
               Forgot Password?
             </button>
-          </div>
+          </div> */}
 
           {/* Submit button */}
           <button

@@ -138,10 +138,10 @@ const Dashboard = () => {
     <div className="space-y-6 p-4">
       {/* Header */}
       <div>
-        <h1 className="text-lg sm:text-lg md:text-lg font-bold text-slate-800 mb-1 ">
+        <h1 className="text-lg sm:text-lg md:text-lg   font-bold text-teal-600 mb-0.5 ">
           Dashboard Overview
         </h1>
-        <p className="text-slate-600 text-sm sm:text-base md:text-lg">
+        <p className="text-slate-600 text-xs sm:text-base md:text-sm">
           Monitor your electrical system in real-time
         </p>
       </div>
