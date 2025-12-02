@@ -88,6 +88,7 @@ import Boards from "./pages/Board";
 import Rooms from "./pages/Rooms";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Setting";
+import RealtimeSwitches from "./pages/FireBase";
 
 // ✅ Inner App with access to context
 const AppContent = () => {
@@ -137,7 +138,9 @@ const AppContent = () => {
             <Navigate to={isAuthenticated ? "/" : "/signin"} replace />
           }
         />
+         
       </Routes>
+     <RealtimeSwitches />
     </HashRouter>
   );
 };
