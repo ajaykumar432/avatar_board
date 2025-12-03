@@ -126,10 +126,10 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
-const Header = ({ setSidebarOpen, sidebarOpen }) => {
+const Header = ({ setSidebarOpen, sidebarOpen, formdata }) => {
   const { user, signOut } = useAuth(); // ✅ correctly inside the component
   const [showDropdown, setShowDropdown] = useState(false);
-
+  console.log("---------", formdata)
   const userInitials = user?.name
     ? user.name
         .split(" ")
@@ -195,6 +195,7 @@ const Header = ({ setSidebarOpen, sidebarOpen }) => {
               <div className="hidden md:flex flex-col items-end mr-1">
                 <span className="text-sm font-semibold text-gray-800 group-hover:text-teal-600 transition-colors">
                   {user?.email || "User"}
+                  
                 </span>
                 <span className="text-xs text-gray-500">Administrator</span>
               </div>

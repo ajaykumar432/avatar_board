@@ -132,12 +132,14 @@ const signIn = async (credentials) => {
 
     const data = response.data;
 
+
     // ✅ Firebase returns idToken, not token
     if (data && data.idToken) {
       // Save everything to localStorage
       localStorage.setItem("token", data.idToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("userId", data.userId);
+      localStorage.setItem("email", credentials.email);
       localStorage.setItem("isAuthenticated", "true");
 
       setIsAuthenticated(true);

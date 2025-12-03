@@ -1438,71 +1438,24 @@ const Rooms = () => {
     }
   };
 
-//   const toggleDevice = async (roomId, deviceName, currentState) => {
-//     try {
-//       const newState = currentState === 1 ? 0 : 1;
-//       dispatch(toggleDeviceInRoomOptimistic({ roomId, deviceName, newState }));
-      
-//       // await dispatch(updateDeviceState({ 
-//       //   roomId, 
-//       //   deviceName, 
-//       //   state: newState 
-//       // })).unwrap();
-      
-//       // await dispatch(fetchRoomById(roomId));
 
-//       const timeout = setInterval(() => {
-//   dispatch(fetchRoomById(roomId));
-// }, 1000);
+  // 🔥 Poll room data every 1 second (ONLY when viewing room)
+useEffect(() => {
+  if (!viewingRoom) return;
 
-// await dispatch(updateDeviceState({ roomId, deviceName, state: newState })).unwrap();
-// await dispatch(fetchRoomById(roomId));
-// // clearTimeout(timeout);
+  const intervalId = setInterval(() => {
+    dispatch(fetchRoomById(viewingRoom));
+  }, 1000);
 
-//     } catch (err) {
-//       console.error('Failed to toggle device:', err);
-//       dispatch(fetchRoomById(roomId));
-//     }
-//   };
+  return () => clearInterval(intervalId);
+}, [viewingRoom]);
 
-  // const toggleFanSpeed = async (roomId, deviceId, newSpeed) => {
-  //   setSpeedUpdating(deviceId);
-  //   try {
-  //     const speedDeviceName = `${deviceId}_Res`;
-  //     await dispatch(updateDeviceState({
-  //       roomId,
-  //       deviceName: speedDeviceName,
-  //       state: newSpeed
-  //     })).unwrap();
-  //     await dispatch(fetchRoomById(roomId));
-  //   } catch (err) {
-  //     console.error('Failed to update fan speed:', err);
-  //     dispatch(fetchRoomById(roomId));
-  //   } finally {
-  //     setSpeedUpdating(null);
-  //   }
-  // };
 
-//  useEffect(() => {
-//     if (!roomId) return; // prevent undefined roomId error
-
-//     const intervalId = setInterval(() => {
-//       dispatch(fetchRoomById(roomId));
-//     }, 6000);
-
-//     // Cleanup when component unmounts
-//     return () => clearInterval(intervalId);
-//   }, [roomId]);
 const toggleDevice = async (roomId, deviceName, currentState) => {
   try {
     const newState = currentState === 1 ? 0 : 1;
 
     dispatch(toggleDeviceInRoomOptimistic({ roomId, deviceName, newState }));
-
-    // 🔥 Infinite polling — every 1 second
-    setInterval(() => {
-      dispatch(fetchRoomById(roomId));
-    }, 6000);
 
     await dispatch(updateDeviceState({
       roomId,
@@ -1515,52 +1468,13 @@ const toggleDevice = async (roomId, deviceName, currentState) => {
   }
 };
 
-
-//   const toggleFanSpeed = async (roomId, deviceId, newSpeed) => {
-//   setSpeedUpdating(deviceId);
-
-//   try {
-//     const speedDeviceName = `${deviceId}_Res`;
-
-//     // Start a 7-second timeout
-//     const timeout = setInterval(() => {
-//       setSpeedUpdating(null);
-//       dispatch(fetchRoomById(roomId));  // Refetch data
-//     }, 1000);
-
-//     await dispatch(
-//       updateDeviceState({
-//         roomId,
-//         deviceName: speedDeviceName,
-//         state: newSpeed
-//       })
-//     ).unwrap();
-
-//     await dispatch(fetchRoomById(roomId));
-//     // clearTimeout(timeout);
-//   } catch (err) {
-//     console.error('Failed to update fan speed:', err);
-//     dispatch(fetchRoomById(roomId));
-//   } finally {
-//     setSpeedUpdating(null);
-//   }
-// };
-
-
 const toggleFanSpeed = async (roomId, deviceId, newSpeed) => {
   setSpeedUpdating(deviceId);
 
   try {
-    const speedDeviceName = `${deviceId}_Res`;
-
-    // 🔥 Infinite API polling
-    setInterval(() => {
-      dispatch(fetchRoomById(roomId));
-    }, 6000);
-
     await dispatch(updateDeviceState({
       roomId,
-      deviceName: speedDeviceName,
+      deviceName: `${deviceId}_Res`,
       state: newSpeed
     })).unwrap();
 
@@ -1570,7 +1484,6 @@ const toggleFanSpeed = async (roomId, deviceId, newSpeed) => {
     setSpeedUpdating(null);
   }
 };
-
 
 
 
