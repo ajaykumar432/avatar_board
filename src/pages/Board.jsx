@@ -1029,7 +1029,7 @@ const Boards = () => {
             <h1 className="text-lg sm:text-lg md:text-lg   font-bold text-teal-600 mb-0.5">
               Board Management
             </h1>
-            <p className="text-slate-600 text-xs sm:text-base md:text-sm">
+            <p className="text-slate-600 text-sm sm:text-sm md:text-sm">
               Configure and manage electrical boards
             </p>
           </div>

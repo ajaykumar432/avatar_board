@@ -571,22 +571,43 @@ const roomSlice = createSlice({
             state.currentRoom.selected_devices[deviceName] = deviceState;
             
             // Recalculate active devices
-            state.currentRoom.active_devices = Object.keys(state.currentRoom.selected_devices)
-              .filter(key => !key.includes('_Res'))
-              .reduce((count, key) => count + (state.currentRoom.selected_devices[key] === 1 ? 1 : 0), 0);
+          //   state.currentRoom.active_devices = Object.keys(state.currentRoom.selected_devices)
+          //     .filter(key => !key.includes('_Res'))
+          //     .reduce((count, key) => count + (state.currentRoom.selected_devices[key] === 1 ? 1 : 0), 0);
+          // }
+          state.currentRoom.active_devices = Object.keys(state.currentRoom.selected_devices)
+  .filter(key => !key.includes('_Res'))
+  .reduce((count, key) => {
+    const val = state.currentRoom.selected_devices[key];
+    return count + (val === 1 || val === 2 || val === 3 ? 1 : 0);
+  }, 0);
           }
         }
         
         // Update in rooms list
-        const room = state.rooms.find(r => r.roomId === roomId);
-        if (room) {
-          // Recalculate active devices count based on the update
-          if (deviceState === 1) {
-            room.active_devices = Math.min(room.total_devices, room.active_devices + 1);
-          } else {
-            room.active_devices = Math.max(0, room.active_devices - 1);
-          }
-        }
+        // const room = state.rooms.find(r => r.roomId === roomId);
+        // if (room) {
+        //   // Recalculate active devices count based on the update
+        //   if (deviceState === 1 || deviceState === 2 || deviceState === 3) {
+        //     room.active_devices = Math.min(room.total_devices, room.active_devices + 1);
+        //   } else {
+        //     room.active_devices = Math.max(0, room.active_devices - 1);
+        //   }
+        // }
+
+        // Update in rooms list
+const room = state.rooms.find(r => r.roomId === roomId);
+if (room) {
+  if (room.selected_devices) {
+    room.active_devices = Object.keys(room.selected_devices)
+      .filter(key => !key.includes('_Res'))
+      .reduce((count, key) => {
+        const val = room.selected_devices[key];
+        return count + (val === 1 || val === 2 || val === 3 ? 1 : 0);
+      }, 0);
+  }
+}
+
       })
       .addCase(updateDeviceState.rejected, (state, action) => {
         const { deviceName } = action.meta.arg;

@@ -1056,34 +1056,78 @@ const Rooms = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = async () => {
-    if (!validateForm()) return;
+  // const handleSave = async () => {
+  //   if (!validateForm()) return;
 
-    try {
-      if (editMode) {
-        await dispatch(updateRoom({ 
-          id: currentRoomId, 
-          data: { room_name: roomName } 
-        })).unwrap();
-      } else {
-        const roomData = {
-          room_name: roomName,
-          board_id: selectedBoardId,
-          selected_devices: {
-            fans: selectedDevices.fans || [],
-            switches: selectedDevices.switches || []
-          }
-        };
-        await dispatch(createRoom(roomData)).unwrap();
-      }
+  //   try {
+  //     if (editMode) {
+  //       await dispatch(updateRoom({ 
+  //         id: currentRoomId, 
+  //         data: { room_name: roomName } 
+  //       })).unwrap();
+  //     } else {
+  //       const roomData = {
+  //         room_name: roomName,
+  //         board_id: selectedBoardId,
+  //         selected_devices: {
+  //           fans: selectedDevices.fans || [],
+  //           switches: selectedDevices.switches || []
+  //         }
+  //       };
+  //       await dispatch(createRoom(roomData)).unwrap();
+  //     }
       
-      dispatch(fetchRooms());
-      handleClose();
-    } catch (err) {
-      console.error('Failed to save room:', err);
-    }
-  };
+  //     dispatch(fetchRooms());
+  //     handleClose();
+  //   } catch (err) {
+  //     console.error('Failed to save room:', err);
+  //   }
+  // };
 
+  const handleSave = async () => {
+  if (!validateForm()) return;
+
+  try {
+    if (editMode) {
+      // Prepare update data - send all updatable fields
+      const updateData = {
+        room_name: roomName,
+        board_id: selectedBoardId,
+        selected_devices: {
+          fans: selectedDevices.fans || [],
+          switches: selectedDevices.switches || []
+        }
+      };
+
+      await dispatch(updateRoom({ 
+        id: currentRoomId, 
+        data: updateData
+      })).unwrap();
+      
+      // If viewing the room being edited, refresh it
+      if (viewingRoom === currentRoomId) {
+        await dispatch(fetchRoomById(currentRoomId));
+      }
+    } else {
+      // Create new room
+      const roomData = {
+        room_name: roomName,
+        board_id: selectedBoardId,
+        selected_devices: {
+          fans: selectedDevices.fans || [],
+          switches: selectedDevices.switches || []
+        }
+      };
+      await dispatch(createRoom(roomData)).unwrap();
+    }
+    
+    // Refresh the rooms list
+    dispatch(fetchRooms());
+    handleClose();
+  } catch (err) {
+    console.error('Failed to save room:', err);
+  }
+};
   const handleClose = () => {
     setShowModal(false);
     setEditMode(false);
@@ -1237,7 +1281,7 @@ const Rooms = () => {
                 <h1 className="text-lg sm:text-lg md:text-lg font-bold text-teal-600 mb-0.5">
                   {currentRoom.room_name}
                 </h1>
-                <p className="text-slate-600 text-xs sm:text-base md:text-sm">
+                <p className="text-slate-600 text-sm sm:text-sm md:text-sm">
                   Board: {getBoardName(currentRoom.board_id)}
                 </p>
               </div>
@@ -1456,7 +1500,7 @@ const Rooms = () => {
             <h1 className="text-lg sm:text-lg md:text-lg font-bold text-teal-600 mb-0.5">
               Room Management
             </h1>
-            <p className="text-slate-600 text-xs sm:text-base md:text-sm">
+            <p className="text-slate-600 text-sm sm:text-sm md:text-sm">
               Track and control devices by room
             </p>
           </div>
@@ -1590,7 +1634,7 @@ const Rooms = () => {
                         setSelectedBoardId(e.target.value);
                         setSelectedDevices({ fans: [], switches: [] });
                       }}
-                      disabled={editMode}
+                      // disabled={editMode}
                       className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all ${
                         errors.board ? 'border-red-500' : 'border-slate-200'
                       } ${editMode ? 'bg-slate-100 cursor-not-allowed' : ''}`}>
@@ -1604,7 +1648,7 @@ const Rooms = () => {
                     {errors.board && <p className="text-red-500 text-sm mt-1">{errors.board}</p>}
                   </div>
 
-                  {selectedBoardId && !editMode && (
+                  {selectedBoardId  && (
                     <div className="border-t-2 border-slate-200 pt-5">
                       <div className="flex justify-between items-center mb-4">
                         <label className="block text-slate-700 font-semibold">
